@@ -1,695 +1,1151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FoodBridge — Figma Design Kit</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>FoodBridge — Bacha Khucha, Kisi Ki Zaroorat</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-/* ─────────────────────────────────────────
-   VIEWER SHELL
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────────── */
 :root {
-  --green:#1a7a5e; --green-l:#e8f5f0; --green-d:#0f4d3a;
-  --amber:#e8882a; --amber-l:#fdf3e7;
-  --text:#1a1a1a; --muted:#6b7280; --faint:#9ca3af;
-  --bg:#fafaf8; --card:#fff; --border:#e8e6e0; --border-d:#d1cec6;
-  --r:14px; --r-sm:8px;
-  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
-  --sh-md:0 4px 24px rgba(0,0,0,.09);
+  --green:       #1a7a5e;
+  --green-light: #e8f5f0;
+  --green-mid:   #2fa87f;
+  --green-dark:  #0f4d3a;
+  --amber:       #e8882a;
+  --amber-light: #fdf3e7;
+  --red:         #c94040;
+  --red-light:   #fdf0f0;
+  --text:        #1a1a1a;
+  --text-muted:  #6b7280;
+  --text-faint:  #9ca3af;
+  --bg:          #fafaf8;
+  --card:        #ffffff;
+  --border:      #e8e6e0;
+  --border-dark: #d1cec6;
+  --radius:      14px;
+  --radius-sm:   8px;
+  --shadow:      0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+  --shadow-md:   0 4px 24px rgba(0,0,0,.09);
+  --nav-h:       60px;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:#0f0f0f;color:#fff;min-height:100vh;}
 
-/* ── TOP BAR ── */
-.topbar{
-  height:52px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;
-  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  position:sticky;top:0;z-index:200;
+/* ─────────────────────────────────────────────
+   RESET & BASE
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 15px; line-height: 1.6;
+  overflow-x: hidden;
 }
-.topbar-left{display:flex;align-items:center;gap:16px;}
-.tb-logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#fff;}
-.tb-dot{width:10px;height:10px;border-radius:50%;background:var(--green);}
-.tb-divider{width:1px;height:20px;background:#2a2a2a;}
-.tb-tabs{display:flex;gap:2px;}
-.tb-tab{
-  padding:5px 14px;border-radius:6px;font-size:13px;color:#888;
-  cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;transition:all .15s;
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ─────────────────────────────────────────────
+   PAGE SYSTEM
+───────────────────────────────────────────── */
+.page { display: none; min-height: 100vh; animation: fadeIn .3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─────────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(250,250,248,.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  height: var(--nav-h);
+  padding: 0 clamp(16px,4vw,32px);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
-.tb-tab:hover{color:#ccc;background:#252525;}
-.tb-tab.active{background:#252525;color:#fff;}
-.topbar-right{display:flex;align-items:center;gap:8px;}
-.tb-btn{
-  padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;
-  cursor:pointer;border:1px solid #333;background:#1f1f1f;color:#aaa;
-  font-family:'DM Sans',sans-serif;transition:all .15s;
+
+.nav-logo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: 'DM Serif Display', serif; font-size: 19px; color: var(--text);
+  cursor: pointer; flex-shrink: 0; text-decoration: none;
 }
-.tb-btn:hover{border-color:#555;color:#fff;}
-.tb-btn-green{background:var(--green);border-color:var(--green);color:#fff;}
-.tb-btn-green:hover{background:var(--green-d);}
-
-/* ── MAIN CANVAS ── */
-.canvas{padding:32px 24px;overflow-x:auto;}
-.canvas-label{font-size:11px;color:#555;font-family:'DM Mono',monospace;margin-bottom:12px;letter-spacing:.5px;}
-
-/* ── BREAKPOINT FRAMES ── */
-.frames-row{display:flex;gap:40px;align-items:flex-start;min-width:max-content;padding-bottom:40px;}
-.frame-wrap{display:flex;flex-direction:column;gap:10px;}
-.frame-header{display:flex;align-items:center;justify-content:space-between;}
-.frame-label{font-size:12px;color:#666;font-family:'DM Mono',monospace;}
-.frame-size{font-size:11px;color:#444;font-family:'DM Mono',monospace;}
-.device-frame{
-  border-radius:12px;overflow:hidden;border:1px solid #2a2a2a;
-  background:var(--bg);position:relative;flex-shrink:0;
+.logo-mark {
+  width: 32px; height: 32px; background: var(--green); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.device-frame.desktop{width:1280px;}
-.device-frame.tablet{width:768px;}
-.device-frame.mobile{width:390px;}
+.logo-mark svg { width: 17px; height: 17px; fill: white; }
 
-/* ── PAGE SECTIONS (reused across breakpoints) ── */
-.fb-nav{
-  height:60px;background:rgba(250,250,248,.97);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;padding:0 28px;
+/* Desktop nav links */
+.nav-links {
+  display: flex; align-items: center; gap: 4px;
+  flex-wrap: nowrap;
 }
-.fb-logo{display:flex;align-items:center;gap:10px;font-family:'DM Serif Display',serif;font-size:19px;color:var(--text);cursor:pointer;}
-.fb-logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0;}
-.fb-nav-links{display:flex;align-items:center;gap:6px;}
-.fb-nav-link{padding:6px 13px;border-radius:6px;font-size:13px;color:var(--muted);border:none;background:none;font-family:'DM Sans',sans-serif;cursor:pointer;}
-.fb-nav-btn{padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border-d);background:var(--card);color:var(--text);font-family:'DM Sans',sans-serif;}
-.fb-nav-btn-fill{background:var(--green);color:#fff;border-color:var(--green);margin-left:4px;}
-.fb-live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:500;padding:4px 10px;background:var(--green-l);border-radius:20px;}
-.fb-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nav-link {
+  padding: 7px 13px; border-radius: var(--radius-sm); font-size: 14px;
+  color: var(--text-muted); border: none; background: none;
+  transition: all .15s; white-space: nowrap;
+}
+.nav-link:hover { background: var(--green-light); color: var(--green); }
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--green); font-weight: 500;
+  padding: 5px 11px; background: var(--green-light); border-radius: 20px;
+  white-space: nowrap;
+}
+.pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  animation: pulse 2s infinite; flex-shrink: 0;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
 
-/* Mobile nav */
-.fb-mob-nav{height:56px;background:rgba(250,250,248,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;}
-.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
-.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;}
+.nav-btn {
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  border: 1.5px solid var(--border-dark); background: var(--card); color: var(--text);
+  transition: all .15s; white-space: nowrap;
+}
+.nav-btn:hover { border-color: var(--green); color: var(--green); }
+.nav-btn-fill { background: var(--green); color: white; border-color: var(--green); }
+.nav-btn-fill:hover { background: var(--green-dark); border-color: var(--green-dark); color: white; }
 
-/* Hero */
-.fb-hero{padding:56px 28px 44px;text-align:center;background:var(--bg);}
-.fb-hero-badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--green);font-weight:500;padding:4px 13px;background:var(--green-l);border-radius:20px;margin-bottom:20px;border:1px solid #c0e4d8;}
-.fb-hero h1{font-family:'DM Serif Display',serif;font-size:48px;line-height:1.1;color:var(--text);margin-bottom:16px;letter-spacing:-.5px;}
-.fb-hero h1 em{color:var(--green);font-style:italic;}
-.fb-hero p{font-size:16px;color:var(--muted);max-width:500px;margin:0 auto 28px;line-height:1.7;}
-.fb-hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
-.fb-btn-lg{padding:12px 26px;border-radius:7px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
-.fb-btn-green{background:var(--green);color:#fff;}
-.fb-btn-white{background:var(--card);color:var(--text);border:1.5px solid var(--border-d)!important;border:none;}
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 40px; height: 40px; border: none; background: none;
+  padding: 8px; border-radius: var(--radius-sm); cursor: pointer;
+}
+.hamburger span {
+  display: block; height: 2px; background: var(--text);
+  border-radius: 2px; transition: all .25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Stats */
-.fb-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--card);box-shadow:var(--sh);max-width:760px;margin:0 auto;}
-.fb-stat{padding:20px 12px;text-align:center;border-right:1px solid var(--border);}
-.fb-stat:last-child{border-right:none;}
-.fb-stat-n{font-family:'DM Serif Display',serif;font-size:26px;color:var(--green);}
-.fb-stat-l{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
+/* Mobile drawer */
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--card); border-bottom: 1px solid var(--border);
+  padding: 16px; z-index: 199; box-shadow: var(--shadow-md);
+  flex-direction: column; gap: 8px;
+  animation: slideDown .2s ease;
+}
+.mobile-menu.open { display: flex; }
+@keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+.mobile-menu .nav-link { text-align: left; padding: 12px 14px; font-size: 15px; }
+.mobile-menu .live-badge { width: fit-content; }
+.mobile-menu .nav-btn { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
+.mobile-menu-divider { height: 1px; background: var(--border); margin: 4px 0; }
 
-/* Section */
-.fb-section{padding:44px 28px;max-width:960px;margin:0 auto;}
-.fb-section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.fb-section-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--text);}
-.fb-see-all{font-size:13px;color:var(--green);font-weight:500;cursor:pointer;}
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
+.hero {
+  padding: clamp(48px,8vw,80px) clamp(16px,5vw,28px) clamp(40px,6vw,60px);
+  max-width: 800px; margin: 0 auto; text-align: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; color: var(--green); font-weight: 500;
+  padding: 5px 14px; background: var(--green-light);
+  border-radius: 20px; margin-bottom: 24px; border: 1px solid #c0e4d8;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(34px, 6vw, 60px);
+  line-height: 1.1; color: var(--text); margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em { color: var(--green); font-style: italic; }
+.hero > p {
+  font-size: clamp(15px, 2vw, 17px); color: var(--text-muted);
+  max-width: 520px; margin: 0 auto 32px; line-height: 1.7;
+}
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+.btn-lg {
+  padding: 13px 26px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500;
+  border: none; transition: all .15s;
+}
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+.btn-white { background: var(--card); color: var(--text); border: 1.5px solid var(--border-dark); }
+.btn-white:hover { border-color: var(--green); color: var(--green); transform: translateY(-1px); }
 
-/* Food Cards */
-.fb-food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.fb-food-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--sh);}
-.fb-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
-.fb-tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
-.fb-tag-g{background:var(--green-l);color:var(--green-d);border:1px solid #c0e4d8;}
-.fb-tag-a{background:var(--amber-l);color:#7a4810;border:1px solid #f5d5a8;}
-.fb-tag-b{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;}
-.fb-time{font-size:11px;color:var(--faint);}
-.fb-food-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.fb-food-qty{font-size:12px;color:var(--muted);margin-bottom:10px;}
-.fb-donor-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
-.fb-donor-ic{width:20px;height:20px;border-radius:5px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--green-d);}
-.fb-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.fb-status{display:flex;align-items:center;gap:5px;font-size:12px;}
-.fb-sdot{width:6px;height:6px;border-radius:50%;}
-.fb-sdot-g{background:var(--green);}
-.fb-sdot-a{background:var(--amber);}
-.fb-claim{padding:5px 13px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+/* Stats strip */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; background: var(--card);
+  box-shadow: var(--shadow); max-width: 780px; margin: 0 auto;
+}
+.stat-cell {
+  padding: 20px 12px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'DM Serif Display', serif; font-size: clamp(22px,3vw,28px); color: var(--green); }
+.stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
 
-/* NGO grid */
-.fb-ngo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-.fb-ngo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh);display:flex;gap:12px;}
-.fb-ngo-ic{width:42px;height:42px;border-radius:9px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green-d);flex-shrink:0;}
-.fb-ngo-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
-.fb-ngo-area{font-size:12px;color:var(--muted);margin-bottom:6px;}
-.fb-ngo-stat{font-size:12px;color:var(--green);font-weight:500;}
-.fb-verified{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--green-d);background:var(--green-l);border:1px solid #c0e4d8;padding:2px 8px;border-radius:20px;margin-top:5px;}
+/* ─────────────────────────────────────────────
+   SECTIONS
+───────────────────────────────────────────── */
+.section {
+  padding: clamp(32px,5vw,56px) clamp(16px,5vw,28px);
+  max-width: 1040px; margin: 0 auto;
+}
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 8px; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: clamp(22px,3vw,26px); color: var(--text); }
+.see-all { font-size: 13px; color: var(--green); font-weight: 500; cursor: pointer; }
+.see-all:hover { text-decoration: underline; }
 
-/* How it works */
-.fb-how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.fb-how-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px 18px;text-align:center;position:relative;overflow:hidden;}
-.fb-how-card::before{content:attr(data-n);position:absolute;top:-6px;right:12px;font-family:'DM Serif Display',serif;font-size:64px;color:var(--green-l);line-height:1;pointer-events:none;}
-.fb-how-ic{font-size:26px;margin-bottom:12px;position:relative;z-index:1;}
-.fb-how-title{font-size:15px;font-weight:600;margin-bottom:6px;position:relative;z-index:1;}
-.fb-how-desc{font-size:12px;color:var(--muted);line-height:1.6;position:relative;z-index:1;}
+/* ─────────────────────────────────────────────
+   FOOD CARDS
+───────────────────────────────────────────── */
+.food-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; }
+.food-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); transition: all .2s; cursor: pointer;
+  animation: fadeIn .4s ease both;
+}
+.food-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--border-dark); }
+.food-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.tag-green  { background: var(--green-light); color: var(--green-dark); border: 1px solid #c0e4d8; }
+.tag-amber  { background: var(--amber-light); color: #7a4810; border: 1px solid #f5d5a8; }
+.tag-blue   { background: #eef2ff; color: #3730a3; border: 1px solid #c7d2fe; }
+.time-ago   { font-size: 11px; color: var(--text-faint); }
+.food-name  { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.food-qty   { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.food-donor { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+.donor-dot {
+  width: 20px; height: 20px; border-radius: 6px; background: var(--green-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: var(--green-dark); flex-shrink: 0;
+}
+.card-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.status-dot-row { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.sdot { width: 6px; height: 6px; border-radius: 50%; }
+.sdot-green { background: var(--green); }
+.sdot-amber { background: var(--amber); }
+.claim-btn {
+  padding: 6px 14px; background: var(--green); color: white; border: none;
+  border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; cursor: pointer;
+  transition: all .15s;
+}
+.claim-btn:hover { background: var(--green-dark); }
+.claimed-label { font-size: 12px; color: var(--amber); font-weight: 500; }
 
-/* CTA */
-.fb-cta{margin:0 28px 44px;border-radius:var(--r);background:var(--green-d);padding:40px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:904px;margin-left:auto;margin-right:auto;}
-.fb-cta h2{font-family:'DM Serif Display',serif;font-size:26px;color:#fff;margin-bottom:6px;}
-.fb-cta p{font-size:14px;color:rgba(255,255,255,.75);max-width:400px;}
-.fb-cta-btn{padding:11px 26px;background:#fff;color:var(--green-d);border:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+/* ─────────────────────────────────────────────
+   NGO CARDS
+───────────────────────────────────────────── */
+.ngo-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; }
+.ngo-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow); display: flex; gap: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.ngo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.ngo-icon {
+  width: 44px; height: 44px; border-radius: 10px; background: var(--green-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--green-dark); flex-shrink: 0;
+}
+.ngo-name  { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.ngo-area  { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.ngo-stat  { font-size: 12px; color: var(--green); font-weight: 500; }
+.verified  {
+  display: inline-flex; align-items: center; gap: 4px; font-size: 11px;
+  color: var(--green-dark); background: var(--green-light);
+  border: 1px solid #c0e4d8; padding: 2px 8px; border-radius: 20px; margin-top: 6px;
+}
 
-/* Footer */
-.fb-footer{border-top:1px solid var(--border);padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--bg);}
-.fb-footer-l{font-size:12px;color:var(--muted);}
-.fb-footer-r{display:flex;gap:16px;}
-.fb-footer-r span{font-size:12px;color:var(--muted);}
+/* ─────────────────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────────────────── */
+.how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.how-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 28px 22px; text-align: center; position: relative; overflow: hidden;
+}
+.how-card::before {
+  content: attr(data-step);
+  position: absolute; top: -8px; right: 14px;
+  font-family: 'DM Serif Display', serif; font-size: 72px;
+  color: var(--green-light); line-height: 1; z-index: 0; pointer-events: none;
+}
+.how-icon  { font-size: 28px; margin-bottom: 14px; position: relative; z-index: 1; }
+.how-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; position: relative; z-index: 1; }
+.how-desc  { font-size: 13px; color: var(--text-muted); line-height: 1.6; position: relative; z-index: 1; }
 
-/* ── TABLET OVERRIDES ── */
-.tablet .fb-hero h1{font-size:36px;}
-.tablet .fb-food-grid{grid-template-columns:repeat(2,1fr);}
-.tablet .fb-how-grid{grid-template-columns:repeat(2,1fr);}
-.tablet .fb-ngo-grid{grid-template-columns:repeat(2,1fr);}
-.tablet .fb-stats{grid-template-columns:repeat(2,1fr);}
-.tablet .fb-stat:nth-child(2){border-right:none;}
-.tablet .fb-stat:nth-child(1),.tablet .fb-stat:nth-child(2){border-bottom:1px solid var(--border);}
+/* ─────────────────────────────────────────────
+   CTA BANNER
+───────────────────────────────────────────── */
+.cta-banner {
+  margin: 0 clamp(16px,4vw,28px) clamp(32px,5vw,56px);
+  border-radius: var(--radius); background: var(--green-dark);
+  padding: clamp(28px,5vw,48px) clamp(24px,5vw,40px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+  max-width: 984px; margin-left: auto; margin-right: auto;
+}
+.cta-banner h2 { font-family: 'DM Serif Display', serif; font-size: clamp(22px,3vw,28px); color: white; margin-bottom: 8px; }
+.cta-banner p  { font-size: 14px; color: rgba(255,255,255,.75); max-width: 400px; }
+.btn-white-solid {
+  padding: 13px 28px; background: white; color: var(--green-dark); border: none;
+  border-radius: var(--radius-sm); font-size: 14px; font-weight: 600;
+  transition: all .15s; white-space: nowrap;
+}
+.btn-white-solid:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
 
-/* ── MOBILE OVERRIDES ── */
-.mobile .fb-hero{padding:36px 16px 32px;}
-.mobile .fb-hero h1{font-size:26px;}
-.mobile .fb-hero p{font-size:14px;}
-.mobile .fb-hero-btns{flex-direction:column;align-items:center;}
-.mobile .fb-btn-lg{width:100%;max-width:280px;text-align:center;}
-.mobile .fb-stats{grid-template-columns:repeat(2,1fr);}
-.mobile .fb-stat:nth-child(2){border-right:none;}
-.mobile .fb-stat:nth-child(1),.mobile .fb-stat:nth-child(2){border-bottom:1px solid var(--border);}
-.mobile .fb-section{padding:28px 16px;}
-.mobile .fb-food-grid{grid-template-columns:1fr;}
-.mobile .fb-ngo-grid{grid-template-columns:1fr;}
-.mobile .fb-how-grid{grid-template-columns:1fr;}
-.mobile .fb-cta{margin:0 16px 36px;padding:28px 22px;flex-direction:column;}
-.mobile .fb-cta-btn{width:100%;text-align:center;}
-.mobile .fb-footer{flex-direction:column;align-items:flex-start;padding:16px;}
-.mobile .fb-footer-r{flex-wrap:wrap;gap:10px;}
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border); padding: clamp(16px,3vw,24px) clamp(16px,4vw,28px);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+}
+footer .left  { font-size: 13px; color: var(--text-muted); }
+footer .right { display: flex; gap: 16px; flex-wrap: wrap; }
+footer .right span { font-size: 13px; color: var(--text-muted); cursor: pointer; }
+footer .right span:hover { color: var(--green); }
 
-/* ── DESIGN SYSTEM PANEL ── */
-.ds-panel{padding:40px 24px;}
-.ds-section{margin-bottom:48px;}
-.ds-section-title{font-size:11px;font-weight:600;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;font-family:'DM Mono',monospace;}
-.ds-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;}
-.color-swatch{border-radius:10px;overflow:hidden;width:80px;}
-.color-box{height:56px;width:100%;}
-.color-info{padding:6px 0 0;text-align:left;}
-.color-name{font-size:11px;color:#888;font-family:'DM Mono',monospace;}
-.color-hex{font-size:12px;color:#ccc;font-family:'DM Mono',monospace;font-weight:500;}
-.type-sample{margin-bottom:16px;}
-.type-meta{font-size:11px;color:#555;font-family:'DM Mono',monospace;margin-bottom:6px;}
-.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
-.comp-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:16px;}
-.comp-title{font-size:11px;color:#666;font-family:'DM Mono',monospace;margin-bottom:12px;letter-spacing:.5px;}
-.spacing-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;}
-.sp-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.sp-box{background:#1D9E75;border-radius:3px;opacity:.7;}
-.sp-lbl{font-size:10px;color:#555;font-family:'DM Mono',monospace;}
+/* ─────────────────────────────────────────────
+   DONOR DASHBOARD
+───────────────────────────────────────────── */
+.dash-layout {
+  display: grid; grid-template-columns: minmax(0,3fr) minmax(0,2fr);
+  min-height: calc(100vh - var(--nav-h));
+}
+.dash-main    { padding: clamp(20px,4vw,32px) clamp(16px,4vw,28px); border-right: 1px solid var(--border); }
+.dash-sidebar { padding: clamp(20px,3vw,28px); background: #f7f7f5; }
+.dash-title { font-family: 'DM Serif Display', serif; font-size: clamp(20px,3vw,24px); margin-bottom: 6px; }
+.dash-sub   { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
 
-/* ── COMPONENT SHOWCASE ── */
-.comp-section{padding:40px 24px;}
-.comp-section-title{font-size:11px;font-weight:600;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;font-family:'DM Mono',monospace;}
-.comp-showcase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:40px;}
-.comp-item{background:#161616;border:1px solid #222;border-radius:12px;padding:20px;}
-.comp-item-label{font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-bottom:14px;letter-spacing:.5px;text-transform:uppercase;}
-.comp-demo{background:var(--bg);border-radius:8px;padding:16px;}
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(18px,3vw,24px); box-shadow: var(--shadow); }
+.form-card-title { font-size: 15px; font-weight: 600; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; display: block; font-weight: 500; }
+.form-input {
+  width: 100%; padding: 10px 13px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px; background: var(--bg);
+  color: var(--text); font-family: inherit; transition: border-color .15s; outline: none;
+}
+.form-input:focus { border-color: var(--green); background: white; }
+select.form-input { cursor: pointer; }
+textarea.form-input { resize: vertical; min-height: 80px; line-height: 1.5; }
 
-/* Scroll indicator */
-.scroll-hint{font-size:11px;color:#444;font-family:'DM Mono',monospace;padding:0 24px 16px;display:flex;align-items:center;gap:6px;}
-.scroll-hint::before{content:'→';color:#333;}
+.window-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.window-btn {
+  padding: 9px 10px; font-size: 12px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); background: var(--bg); color: var(--text-muted);
+  cursor: pointer; font-family: inherit; transition: all .15s; text-align: center;
+}
+.window-btn:hover  { border-color: var(--green); color: var(--green); }
+.window-btn.selected { border-color: var(--green); background: var(--green-light); color: var(--green-dark); font-weight: 500; }
+.submit-btn {
+  width: 100%; padding: 13px; background: var(--green); color: white; border: none;
+  border-radius: var(--radius-sm); font-size: 15px; font-weight: 500;
+  margin-top: 8px; transition: all .15s;
+}
+.submit-btn:hover { background: var(--green-dark); }
+
+/* Impact sidebar */
+.impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.impact-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
+.impact-num { font-family: 'DM Serif Display', serif; font-size: clamp(22px,3vw,26px); color: var(--green); }
+.impact-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+.hist-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+.hist-list  { display: flex; flex-direction: column; gap: 10px; }
+.hist-item  { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; transition: all .15s; }
+.hist-item:hover { border-color: var(--border-dark); }
+.hist-top   { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+.hist-name  { font-size: 14px; font-weight: 500; }
+.hist-detail{ font-size: 12px; color: var(--text-muted); }
+.hist-ngo   { font-size: 12px; color: var(--green); margin-top: 4px; }
+
+.badge-delivered { background: var(--green-light); color: var(--green-dark); border: 1px solid #c0e4d8; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+.badge-pending   { background: var(--amber-light);  color: #7a4810;          border: 1px solid #f5d5a8; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+.badge-live      { background: var(--green-light);  color: var(--green);     border: 1px solid #c0e4d8; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+.badge-expired   { background: #f3f4f6; color: var(--text-faint); border: 1px solid var(--border); font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+
+.cert-box {
+  margin-top: 20px; padding: 14px 16px;
+  background: linear-gradient(135deg, var(--green-light), #d4f0e4);
+  border: 1px solid #b0dccb; border-radius: var(--radius-sm);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.cert-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.cert-text { font-size: 12px; color: var(--green-dark); line-height: 1.5; font-weight: 500; }
+
+/* ─────────────────────────────────────────────
+   NGO DASHBOARD
+───────────────────────────────────────────── */
+.ngo-topbar {
+  padding: 14px clamp(16px,4vw,28px); background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.ngo-dash-layout {
+  display: grid; grid-template-columns: minmax(0,3fr) minmax(0,2fr);
+  min-height: calc(100vh - 116px);
+}
+.ngo-main           { padding: clamp(20px,3vw,28px); border-right: 1px solid var(--border); }
+.ngo-sidebar-content{ padding: clamp(20px,3vw,28px); background: #f7f7f5; }
+
+.alert-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.alert-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); transition: all .2s;
+  animation: fadeIn .4s ease both;
+}
+.alert-card.urgent  { border-color: var(--green); border-left-width: 3px; }
+.alert-card:hover   { box-shadow: var(--shadow-md); }
+.alert-top  { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.alert-name { font-size: 15px; font-weight: 600; }
+.alert-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
+.alert-meta strong { color: var(--text); }
+.alert-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+.timer       { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--amber); font-weight: 500; }
+.timer-ring  { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+.action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-skip    { padding: 7px 14px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; color: var(--text-muted); font-family: inherit; transition: all .15s; }
+.btn-skip:hover { border-color: var(--border-dark); color: var(--text); }
+.btn-accept  { padding: 7px 18px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-accept:hover { background: var(--green-dark); }
+.btn-delivered { padding: 7px 16px; background: var(--amber-light); color: #7a4810; border: 1px solid #f5d5a8; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-delivered:hover { background: #fae4c0; }
+
+.ngo-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.ngo-stat-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
+.ngo-stat-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--green); }
+.ngo-stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+.vol-list { display: flex; flex-direction: column; gap: 8px; }
+.vol-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; }
+.vol-left { display: flex; align-items: center; gap: 10px; }
+.vol-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--green-dark); flex-shrink: 0; }
+.vol-name { font-size: 13px; font-weight: 500; }
+.vol-zone { font-size: 11px; color: var(--text-muted); }
+.status-online { font-size: 11px; color: var(--green); font-weight: 500; }
+.status-busy   { font-size: 11px; color: var(--amber); font-weight: 500; }
+
+.map-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  height: 160px; margin-bottom: 20px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden;
+}
+.map-bg {
+  position: absolute; inset: 0; opacity: .06;
+  background-image:
+    repeating-linear-gradient(0deg,   var(--green) 0,var(--green) 1px,transparent 1px,transparent 32px),
+    repeating-linear-gradient(90deg,  var(--green) 0,var(--green) 1px,transparent 1px,transparent 32px);
+}
+.map-pin-group  { display: flex; gap: 24px; position: relative; z-index: 1; }
+.map-pin-item   { text-align: center; }
+.map-pin-circle { width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 2px solid; }
+.pin-available  { background: var(--green-light); border-color: var(--green); }
+.pin-claimed    { background: var(--amber-light); border-color: var(--amber); }
+.pin-done       { background: #f3f4f6; border-color: #d1d5db; }
+.map-pin-lbl    { font-size: 10px; color: var(--text-muted); }
+.map-label      { font-size: 12px; color: var(--text-muted); position: relative; z-index: 1; }
+
+/* ─────────────────────────────────────────────
+   MODAL
+───────────────────────────────────────────── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card); border-radius: var(--radius); padding: clamp(24px,5vw,36px) clamp(20px,5vw,32px);
+  max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.18); text-align: center;
+  animation: popIn .2s ease;
+}
+@keyframes popIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-icon  { font-size: 40px; margin-bottom: 14px; }
+.modal-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
+.modal-desc  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+.modal-btn   { padding: 11px 32px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; }
+.modal-btn:hover { background: var(--green-dark); }
+
+/* ─────────────────────────────────────────────
+   TOAST
+───────────────────────────────────────────── */
+.toast {
+  display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--green-dark); color: white; padding: 13px 22px;
+  border-radius: var(--radius); font-size: 14px; font-weight: 500;
+  z-index: 999; box-shadow: var(--shadow-md); white-space: nowrap;
+  max-width: calc(100vw - 32px); text-overflow: ellipsis; overflow: hidden;
+}
+.toast.show { display: block; animation: slideUp .3s ease; }
+@keyframes slideUp { from{transform:translateX(-50%) translateY(14px);opacity:0} to{transform:translateX(-50%) translateY(0);opacity:1} }
+
+/* ─────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 3px; }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE — TABLET (≤900px)
+───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .how-grid    { grid-template-columns: 1fr 1fr; }
+  .dash-layout, .ngo-dash-layout { grid-template-columns: 1fr; }
+  .form-row    { grid-template-columns: 1fr 1fr; }
+  .dash-sidebar, .ngo-sidebar-content { border-top: 1px solid var(--border); border-right: none; }
+  .ngo-dash-layout .ngo-main { border-right: none; }
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE — MOBILE (≤640px)
+───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Navbar */
+  .nav-links   { display: none; }
+  .hamburger   { display: flex; }
+
+  /* Hero */
+  .hero-actions { flex-direction: column; align-items: center; }
+  .btn-lg { width: 100%; max-width: 320px; text-align: center; }
+
+  /* Stats — single column on small screens */
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .stat-cell   { padding: 14px 8px; }
+
+  /* How — single column */
+  .how-grid { grid-template-columns: 1fr; }
+
+  /* Food grid */
+  .food-grid { grid-template-columns: 1fr; }
+  .ngo-grid  { grid-template-columns: 1fr; }
+
+  /* Form */
+  .form-row  { grid-template-columns: 1fr; }
+  .window-grid { grid-template-columns: 1fr; }
+
+  /* CTA banner */
+  .cta-banner { text-align: center; justify-content: center; }
+  .cta-banner .btn-white-solid { width: 100%; }
+
+  /* Footer */
+  footer { flex-direction: column; text-align: center; }
+  footer .right { justify-content: center; }
+
+  /* NGO top bar */
+  .ngo-topbar { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 400px) {
+  .stats-strip { grid-template-columns: 1fr; }
+  .stat-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-cell:last-child { border-bottom: none; }
+}
 </style>
 </head>
 <body>
 
-<!-- ── TOP BAR ── -->
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="tb-logo"><div class="tb-dot"></div>FoodBridge</div>
-    <div class="tb-divider"></div>
-    <div class="tb-tabs">
-      <button class="tb-tab active" onclick="switchTab('responsive')">Responsive Frames</button>
-      <button class="tb-tab" onclick="switchTab('components')">Components</button>
-      <button class="tb-tab" onclick="switchTab('tokens')">Design Tokens</button>
+<!-- ═══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+      </svg>
     </div>
+    FoodBridge
   </div>
-  <div class="topbar-right">
-    <div style="font-size:11px;color:#444;font-family:'DM Mono',monospace;">3 screens · 6 components · 12 tokens</div>
-    <button class="tb-btn tb-btn-green" onclick="window.open('https://www.figma.com/community/plugin/1159123024924461424/html-to-figma','_blank')">Import to Figma ↗</button>
+
+  <!-- Desktop links -->
+  <div class="nav-links" id="desktop-nav">
+    <button class="nav-link" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="scrollToSection('listings')">Listings</button>
+    <button class="nav-link" onclick="scrollToSection('ngos')">NGOs</button>
+    <div class="live-badge"><div class="pulse"></div>12 live listings</div>
+    <button class="nav-btn" onclick="showPage('ngo')">NGO Login</button>
+    <button class="nav-btn nav-btn-fill" onclick="showPage('donor')">Khana Donate Karein</button>
   </div>
+
+  <!-- Hamburger -->
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="nav-link" onclick="showPage('home'); closeMenu()">Home</button>
+  <button class="nav-link" onclick="scrollToSection('listings'); closeMenu()">Listings</button>
+  <button class="nav-link" onclick="scrollToSection('ngos'); closeMenu()">NGOs</button>
+  <div class="live-badge"><div class="pulse"></div>12 live listings</div>
+  <div class="mobile-menu-divider"></div>
+  <button class="nav-btn" onclick="showPage('ngo'); closeMenu()">NGO Login</button>
+  <button class="nav-btn nav-btn-fill" onclick="showPage('donor'); closeMenu()">Khana Donate Karein</button>
 </div>
 
-<!-- ══════════════════════════════
-     TAB 1: RESPONSIVE FRAMES
-══════════════════════════════ -->
-<div id="tab-responsive">
-  <div class="scroll-hint">Scroll horizontally to see all 3 breakpoints</div>
-  <div class="canvas">
-    <div class="frames-row">
+<!-- ═══════════════════════════════════════
+     PAGE 1 — HOMEPAGE
+════════════════════════════════════════ -->
+<div id="page-home" class="page active">
 
-      <!-- ── DESKTOP 1440px ── -->
-      <div class="frame-wrap">
-        <div class="frame-header">
-          <span class="frame-label">🖥  Desktop</span>
-          <span class="frame-size">1280 × auto</span>
-        </div>
-        <div class="device-frame desktop">
-          <!-- NAV -->
-          <div class="fb-nav">
-            <div class="fb-logo"><div class="fb-logo-mark">🌿</div>FoodBridge</div>
-            <div class="fb-nav-links">
-              <button class="fb-nav-link">Home</button>
-              <button class="fb-nav-link">Listings</button>
-              <button class="fb-nav-link">NGOs</button>
-              <div class="fb-live"><div class="fb-pulse"></div>12 live listings</div>
-              <button class="fb-nav-btn">NGO Login</button>
-              <button class="fb-nav-btn fb-nav-btn-fill">Donate Food</button>
-            </div>
-          </div>
-          <!-- HERO -->
-          <div class="fb-hero">
-            <div class="fb-hero-badge"><div class="fb-pulse"></div>2,841 meals rescued in Karachi today</div>
-            <h1>Leftover food,<br><em>someone's need</em></h1>
-            <p>Get your restaurant, hotel or wedding hall's surplus food to nearby verified NGOs — completely free, in just 2 minutes.</p>
-            <div class="fb-hero-btns">
-              <button class="fb-btn-lg fb-btn-green">List Your Food</button>
-              <button class="fb-btn-lg fb-btn-white" style="border:1.5px solid var(--border-d);">Register as NGO</button>
-            </div>
-            <div class="fb-stats">
-              <div class="fb-stat"><div class="fb-stat-n">2,841</div><div class="fb-stat-l">Meals rescued<br>this month</div></div>
-              <div class="fb-stat"><div class="fb-stat-n">38</div><div class="fb-stat-l">Active donors<br>in Karachi</div></div>
-              <div class="fb-stat"><div class="fb-stat-n">14</div><div class="fb-stat-l">Verified NGOs<br>on network</div></div>
-              <div class="fb-stat"><div class="fb-stat-n">22 min</div><div class="fb-stat-l">Average<br>claim time</div></div>
-            </div>
-          </div>
-          <!-- LISTINGS -->
-          <div class="fb-section" id="listings">
-            <div class="fb-section-hd"><h2 class="fb-section-title">Available Now — Karachi</h2><span class="fb-see-all">View all →</span></div>
-            <div class="fb-food-grid">
-              <div class="fb-food-card">
-                <div class="fb-card-top"><span class="fb-tag fb-tag-g">Cooked food</span><span class="fb-time">18 min ago</span></div>
-                <div class="fb-food-name">Biryani + Raita</div>
-                <div class="fb-food-qty">~40 portions · DHA Phase 4</div>
-                <div class="fb-donor-row"><div class="fb-donor-ic">KR</div>Kolachi Restaurant</div>
-                <div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;">Available</span></div><button class="fb-claim">Claim</button></div>
-              </div>
-              <div class="fb-food-card">
-                <div class="fb-card-top"><span class="fb-tag fb-tag-a">Bakery items</span><span class="fb-time">45 min ago</span></div>
-                <div class="fb-food-name">Bread + Pastries</div>
-                <div class="fb-food-qty">~60 pcs · Saddar</div>
-                <div class="fb-donor-row"><div class="fb-donor-ic">GA</div>Gul Ahmed Bakery</div>
-                <div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;">Available</span></div><button class="fb-claim">Claim</button></div>
-              </div>
-              <div class="fb-food-card">
-                <div class="fb-card-top"><span class="fb-tag fb-tag-b">Wedding surplus</span><span class="fb-time">1 hr ago</span></div>
-                <div class="fb-food-name">Mixed Dishes</div>
-                <div class="fb-food-qty">~120 portions · Gulshan</div>
-                <div class="fb-donor-row"><div class="fb-donor-ic">AS</div>Al-Sehat Hall</div>
-                <div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-a"></div><span style="color:var(--amber);font-weight:500;">Claimed</span></div><span style="font-size:12px;color:var(--amber);">Pickup pending</span></div>
-              </div>
-            </div>
-          </div>
-          <!-- HOW IT WORKS -->
-          <div class="fb-section" style="padding-top:0;">
-            <div class="fb-section-hd"><h2 class="fb-section-title">How It Works</h2></div>
-            <div class="fb-how-grid">
-              <div class="fb-how-card" data-n="1"><div class="fb-how-ic">📋</div><div class="fb-how-title">Post a listing</div><div class="fb-how-desc">Enter food type, quantity and pickup window — takes only 2 minutes.</div></div>
-              <div class="fb-how-card" data-n="2"><div class="fb-how-ic">🔔</div><div class="fb-how-title">NGOs get alerted</div><div class="fb-how-desc">Nearby verified NGOs receive instant SMS and app notifications.</div></div>
-              <div class="fb-how-card" data-n="3"><div class="fb-how-ic">✅</div><div class="fb-how-title">Pickup & delivery</div><div class="fb-how-desc">NGO claims it, picks it up, and delivers to those in need.</div></div>
-            </div>
-          </div>
-          <!-- NGOs -->
-          <div class="fb-section" style="padding-top:0;">
-            <div class="fb-section-hd"><h2 class="fb-section-title">Verified NGOs — Karachi Network</h2><span class="fb-see-all">Join →</span></div>
-            <div class="fb-ngo-grid">
-              <div class="fb-ngo-card"><div class="fb-ngo-ic">SE</div><div><div class="fb-ngo-name">Saylani Welfare</div><div class="fb-ngo-area">📍 Gulshan, Korangi, Landhi</div><div class="fb-ngo-stat">247 pickups this month</div><div class="fb-verified">✓ Verified NGO</div></div></div>
-              <div class="fb-ngo-card"><div class="fb-ngo-ic">CK</div><div><div class="fb-ngo-name">Chhipa Welfare</div><div class="fb-ngo-area">📍 Saddar, Lyari, Keamari</div><div class="fb-ngo-stat">189 pickups this month</div><div class="fb-verified">✓ Verified NGO</div></div></div>
-              <div class="fb-ngo-card"><div class="fb-ngo-ic">AF</div><div><div class="fb-ngo-name">Ansar Foundation</div><div class="fb-ngo-area">📍 DHA, Clifton, Defence</div><div class="fb-ngo-stat">94 pickups this month</div><div class="fb-verified">✓ Verified NGO</div></div></div>
-              <div class="fb-ngo-card"><div class="fb-ngo-ic">EO</div><div><div class="fb-ngo-name">Edhi Foundation</div><div class="fb-ngo-area">📍 City-wide, all areas</div><div class="fb-ngo-stat">312 pickups this month</div><div class="fb-verified">✓ Verified NGO</div></div></div>
-            </div>
-          </div>
-          <!-- CTA -->
-          <div class="fb-cta">
-            <div><h2>Take the first step today</h2><p>Post your first food listing in just 2 minutes. Thousands of people in Karachi are waiting.</p></div>
-            <button class="fb-cta-btn">Start Now →</button>
-          </div>
-          <!-- FOOTER -->
-          <div class="fb-footer">
-            <div class="fb-footer-l">© 2025 FoodBridge · Karachi, Pakistan · Leftover food, someone's need</div>
-            <div class="fb-footer-r"><span>About us</span><span>Register NGO</span><span>Contact</span><span>Urdu | English</span></div>
-          </div>
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <div class="pulse"></div>
+      Karachi mein aaj 2,841 meals rescue hue
+    </div>
+    <h1>Bacha khucha khana,<br><em>kisi ki zaroorat</em></h1>
+    <p>Restaurants, hotels aur shaadi halls ka surplus khana near-by verified NGOs tak pahunchao — bilkul free, sirf 2 minute mein.</p>
+    <div class="hero-actions">
+      <button class="btn-lg btn-green" onclick="showPage('donor')">Khana List Karein</button>
+      <button class="btn-lg btn-white" onclick="showPage('ngo')">NGO ke liye Register</button>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-cell"><div class="stat-num">2,841</div><div class="stat-lbl">Meals rescued<br>this month</div></div>
+      <div class="stat-cell"><div class="stat-num">38</div><div class="stat-lbl">Active donors<br>in Karachi</div></div>
+      <div class="stat-cell"><div class="stat-num">14</div><div class="stat-lbl">Verified NGOs<br>on network</div></div>
+      <div class="stat-cell"><div class="stat-num">22 min</div><div class="stat-lbl">Average<br>claim time</div></div>
+    </div>
+  </div>
+
+  <!-- Live Listings -->
+  <div class="section" id="listings">
+    <div class="section-header">
+      <h2 class="section-title">Abhi Available — Karachi</h2>
+      <span class="see-all" onclick="showPage('donor')">Sab dekhein →</span>
+    </div>
+    <div class="food-grid" id="food-grid"></div>
+  </div>
+
+  <!-- How It Works -->
+  <div class="section" style="padding-top:0;">
+    <div class="section-header">
+      <h2 class="section-title">Kaise Kaam Karta Hai</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card" data-step="1">
+        <div class="how-icon">📋</div>
+        <div class="how-title">Listing post karein</div>
+        <div class="how-desc">Khane ki qism, quantity aur pickup time batao — sirf 2 minute ka kaam.</div>
+      </div>
+      <div class="how-card" data-step="2">
+        <div class="how-icon">🔔</div>
+        <div class="how-title">NGOs ko alert jaata hai</div>
+        <div class="how-desc">Paas ke verified NGOs ko turant SMS aur app notification jaati hai.</div>
+      </div>
+      <div class="how-card" data-step="3">
+        <div class="how-icon">✅</div>
+        <div class="how-title">Pickup aur delivery</div>
+        <div class="how-desc">NGO claim kare, khana pick kare, aur zarooratmand logon tak pahunche.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verified NGOs -->
+  <div class="section" id="ngos" style="padding-top:0;">
+    <div class="section-header">
+      <h2 class="section-title">Verified NGOs — Karachi Network</h2>
+      <span class="see-all" onclick="showPage('ngo')">Join karein →</span>
+    </div>
+    <div class="ngo-grid">
+      <div class="ngo-card" onclick="showPage('ngo')">
+        <div class="ngo-icon">SE</div>
+        <div>
+          <div class="ngo-name">Saylani Welfare</div>
+          <div class="ngo-area">📍 Gulshan, Korangi, Landhi</div>
+          <div class="ngo-stat">247 pickups this month</div>
+          <div class="verified">✓ Verified NGO</div>
         </div>
       </div>
-
-      <!-- ── TABLET 768px ── -->
-      <div class="frame-wrap">
-        <div class="frame-header">
-          <span class="frame-label">📱 Tablet</span>
-          <span class="frame-size">768 × auto</span>
-        </div>
-        <div class="device-frame tablet">
-          <div class="fb-nav" style="padding:0 18px;">
-            <div class="fb-logo" style="font-size:17px;"><div class="fb-logo-mark" style="width:28px;height:28px;font-size:14px;">🌿</div>FoodBridge</div>
-            <div class="fb-nav-links" style="gap:4px;">
-              <div class="fb-live" style="font-size:11px;"><div class="fb-pulse"></div>12 live</div>
-              <button class="fb-nav-btn" style="font-size:12px;padding:6px 12px;">NGO Login</button>
-              <button class="fb-nav-btn fb-nav-btn-fill" style="font-size:12px;padding:6px 12px;">Donate Food</button>
-            </div>
-          </div>
-          <div class="fb-hero tablet" style="padding:40px 20px 32px;">
-            <div class="fb-hero-badge" style="font-size:11px;"><div class="fb-pulse"></div>2,841 meals rescued today</div>
-            <h1 style="font-family:'DM Serif Display',serif;font-size:34px;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.3px;">Leftover food,<br><em style="color:var(--green);font-style:italic;">someone's need</em></h1>
-            <p style="font-size:15px;color:var(--muted);max-width:460px;margin:0 auto 24px;line-height:1.7;">Get your surplus food to verified NGOs — free, in 2 minutes.</p>
-            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;">
-              <button class="fb-btn-lg fb-btn-green" style="font-size:13px;padding:10px 20px;">List Your Food</button>
-              <button class="fb-btn-lg fb-btn-white" style="font-size:13px;padding:10px 20px;border:1.5px solid var(--border-d);">Register as NGO</button>
-            </div>
-            <div class="fb-stats tablet" style="max-width:600px;">
-              <div class="fb-stat" style="border-bottom:1px solid var(--border);"><div class="fb-stat-n">2,841</div><div class="fb-stat-l">Meals rescued</div></div>
-              <div class="fb-stat" style="border-right:none;border-bottom:1px solid var(--border);"><div class="fb-stat-n">38</div><div class="fb-stat-l">Active donors</div></div>
-              <div class="fb-stat"><div class="fb-stat-n">14</div><div class="fb-stat-l">Verified NGOs</div></div>
-              <div class="fb-stat" style="border-right:none;"><div class="fb-stat-n">22 min</div><div class="fb-stat-l">Avg claim time</div></div>
-            </div>
-          </div>
-          <div class="fb-section" style="padding:32px 20px;">
-            <div class="fb-section-hd"><h2 class="fb-section-title" style="font-size:20px;">Available Now</h2><span class="fb-see-all">View all →</span></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="fb-food-card"><div class="fb-card-top"><span class="fb-tag fb-tag-g">Cooked food</span><span class="fb-time">18 min ago</span></div><div class="fb-food-name">Biryani + Raita</div><div class="fb-food-qty">~40 portions · DHA</div><div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;font-size:11px;">Available</span></div><button class="fb-claim">Claim</button></div></div>
-              <div class="fb-food-card"><div class="fb-card-top"><span class="fb-tag fb-tag-a">Bakery</span><span class="fb-time">45 min ago</span></div><div class="fb-food-name">Bread + Pastries</div><div class="fb-food-qty">~60 pcs · Saddar</div><div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;font-size:11px;">Available</span></div><button class="fb-claim">Claim</button></div></div>
-            </div>
-          </div>
-          <div class="fb-section" style="padding:0 20px 32px;">
-            <div class="fb-section-hd"><h2 class="fb-section-title" style="font-size:20px;">How It Works</h2></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="fb-how-card" data-n="1" style="padding:20px 14px;"><div class="fb-how-ic">📋</div><div class="fb-how-title" style="font-size:14px;">Post a listing</div><div class="fb-how-desc">2 minutes to list your food.</div></div>
-              <div class="fb-how-card" data-n="2" style="padding:20px 14px;"><div class="fb-how-ic">🔔</div><div class="fb-how-title" style="font-size:14px;">NGOs alerted</div><div class="fb-how-desc">Instant SMS and app notification.</div></div>
-            </div>
-          </div>
-          <div class="fb-cta" style="margin:0 20px 32px;padding:28px 24px;">
-            <div><h2 style="font-size:22px;">Take the first step today</h2><p style="font-size:13px;">Post your first listing in 2 minutes.</p></div>
-            <button class="fb-cta-btn" style="font-size:13px;padding:10px 20px;margin-top:8px;">Start Now →</button>
-          </div>
-          <div class="fb-footer" style="padding:16px 20px;">
-            <div class="fb-footer-l">© 2025 FoodBridge · Karachi</div>
-            <div class="fb-footer-r"><span>About</span><span>Contact</span><span>Urdu</span></div>
-          </div>
+      <div class="ngo-card" onclick="showPage('ngo')">
+        <div class="ngo-icon">CK</div>
+        <div>
+          <div class="ngo-name">Chhipa Welfare</div>
+          <div class="ngo-area">📍 Saddar, Lyari, Keamari</div>
+          <div class="ngo-stat">189 pickups this month</div>
+          <div class="verified">✓ Verified NGO</div>
         </div>
       </div>
-
-      <!-- ── MOBILE 390px ── -->
-      <div class="frame-wrap">
-        <div class="frame-header">
-          <span class="frame-label">📱 Mobile</span>
-          <span class="frame-size">390 × auto</span>
-        </div>
-        <div class="device-frame mobile" style="border-radius:32px;border:8px solid #1a1a1a;">
-          <!-- Mobile Nav -->
-          <div class="fb-mob-nav">
-            <div class="fb-logo" style="font-size:16px;"><div class="fb-logo-mark" style="width:28px;height:28px;font-size:14px;">🌿</div>FoodBridge</div>
-            <div class="hamburger"><span></span><span></span><span></span></div>
-          </div>
-          <!-- Hero Mobile -->
-          <div style="padding:32px 16px 28px;text-align:center;background:var(--bg);">
-            <div class="fb-hero-badge" style="font-size:11px;margin-bottom:16px;"><div class="fb-pulse"></div>2,841 meals rescued today</div>
-            <h1 style="font-family:'DM Serif Display',serif;font-size:26px;line-height:1.2;color:var(--text);margin-bottom:12px;">Leftover food,<br><em style="color:var(--green);font-style:italic;">someone's need</em></h1>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;">Get surplus food to verified NGOs — free, in 2 minutes.</p>
-            <div style="display:flex;flex-direction:column;gap:8px;align-items:center;margin-bottom:28px;">
-              <button class="fb-btn-lg fb-btn-green" style="font-size:13px;padding:11px 0;width:100%;">List Your Food</button>
-              <button class="fb-btn-lg fb-btn-white" style="font-size:13px;padding:11px 0;width:100%;border:1.5px solid var(--border-d);">Register as NGO</button>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card);">
-              <div class="fb-stat" style="border-bottom:1px solid var(--border);"><div class="fb-stat-n" style="font-size:22px;">2,841</div><div class="fb-stat-l">Meals rescued</div></div>
-              <div class="fb-stat" style="border-right:none;border-bottom:1px solid var(--border);"><div class="fb-stat-n" style="font-size:22px;">38</div><div class="fb-stat-l">Active donors</div></div>
-              <div class="fb-stat"><div class="fb-stat-n" style="font-size:22px;">14</div><div class="fb-stat-l">Verified NGOs</div></div>
-              <div class="fb-stat" style="border-right:none;"><div class="fb-stat-n" style="font-size:18px;">22 min</div><div class="fb-stat-l">Claim time</div></div>
-            </div>
-          </div>
-          <!-- Food Cards Mobile -->
-          <div style="padding:24px 16px 0;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-              <span style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);">Available Now</span>
-              <span style="font-size:12px;color:var(--green);font-weight:500;">View all →</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div class="fb-food-card"><div class="fb-card-top"><span class="fb-tag fb-tag-g">Cooked food</span><span class="fb-time">18 min ago</span></div><div class="fb-food-name">Biryani + Raita</div><div class="fb-food-qty">~40 portions · DHA Phase 4</div><div class="fb-donor-row"><div class="fb-donor-ic">KR</div>Kolachi Restaurant</div><div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;font-size:12px;">Available</span></div><button class="fb-claim">Claim</button></div></div>
-              <div class="fb-food-card"><div class="fb-card-top"><span class="fb-tag fb-tag-a">Bakery</span><span class="fb-time">45 min ago</span></div><div class="fb-food-name">Bread + Pastries</div><div class="fb-food-qty">~60 pieces · Saddar</div><div class="fb-donor-row"><div class="fb-donor-ic">GA</div>Gul Ahmed Bakery</div><div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;font-size:12px;">Available</span></div><button class="fb-claim">Claim</button></div></div>
-            </div>
-          </div>
-          <!-- How it works mobile -->
-          <div style="padding:24px 16px;">
-            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);margin-bottom:14px;">How It Works</div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div class="fb-how-card" data-n="1" style="padding:18px 14px;text-align:left;"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:22px;">📋</div><div><div class="fb-how-title" style="font-size:14px;margin-bottom:3px;">Post a listing</div><div class="fb-how-desc">2 minutes to list your food for pickup.</div></div></div></div>
-              <div class="fb-how-card" data-n="2" style="padding:18px 14px;text-align:left;"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:22px;">🔔</div><div><div class="fb-how-title" style="font-size:14px;margin-bottom:3px;">NGOs get alerted</div><div class="fb-how-desc">Instant SMS and app notification sent.</div></div></div></div>
-              <div class="fb-how-card" data-n="3" style="padding:18px 14px;text-align:left;"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:22px;">✅</div><div><div class="fb-how-title" style="font-size:14px;margin-bottom:3px;">Pickup & delivery</div><div class="fb-how-desc">NGO picks up and delivers to those in need.</div></div></div></div>
-            </div>
-          </div>
-          <!-- CTA Mobile -->
-          <div style="margin:0 16px 28px;border-radius:12px;background:var(--green-d);padding:24px 20px;text-align:center;">
-            <h2 style="font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:8px;">Take the first step today</h2>
-            <p style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px;">Post your first listing in just 2 minutes.</p>
-            <button class="fb-cta-btn" style="font-size:13px;padding:10px 0;width:100%;">Start Now →</button>
-          </div>
-          <!-- Footer Mobile -->
-          <div style="border-top:1px solid var(--border);padding:16px;background:var(--bg);">
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">© 2025 FoodBridge · Karachi, Pakistan</div>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;">
-              <span style="font-size:11px;color:var(--muted);">About</span>
-              <span style="font-size:11px;color:var(--muted);">Register NGO</span>
-              <span style="font-size:11px;color:var(--muted);">Contact</span>
-              <span style="font-size:11px;color:var(--muted);">Urdu</span>
-            </div>
-          </div>
+      <div class="ngo-card" onclick="showPage('ngo')">
+        <div class="ngo-icon">AF</div>
+        <div>
+          <div class="ngo-name">Ansar Foundation</div>
+          <div class="ngo-area">📍 DHA, Clifton, Defence</div>
+          <div class="ngo-stat">94 pickups this month</div>
+          <div class="verified">✓ Verified NGO</div>
         </div>
       </div>
+      <div class="ngo-card" onclick="showPage('ngo')">
+        <div class="ngo-icon">EO</div>
+        <div>
+          <div class="ngo-name">Edhi Foundation</div>
+          <div class="ngo-area">📍 City-wide, all areas</div>
+          <div class="ngo-stat">312 pickups this month</div>
+          <div class="verified">✓ Verified NGO</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    </div><!-- /frames-row -->
-  </div><!-- /canvas -->
+  <!-- CTA -->
+  <div class="cta-banner">
+    <div>
+      <h2>Aaj pehla qadam uthaein</h2>
+      <p>Sirf 2 minute mein apna pehla food listing post karein. Karachi ke hazaron log aapka intezaar kar rahe hain.</p>
+    </div>
+    <button class="btn-white-solid" onclick="showPage('donor')">Abhi Shuru Karein →</button>
+  </div>
+
+  <footer>
+    <div class="left">© 2025 FoodBridge — Karachi, Pakistan · Bacha khucha, kisi ki zaroorat</div>
+    <div class="right">
+      <span onclick="showToast('Hamare baare mein — coming soon!')">Hamare baare mein</span>
+      <span onclick="showPage('ngo')">NGO register</span>
+      <span onclick="showToast('Contact: hello@foodbridge.pk')">Contact</span>
+      <span onclick="showToast('Language switch — coming soon!')">Urdu | English</span>
+    </div>
+  </footer>
 </div>
 
-<!-- ══════════════════════════════
-     TAB 2: COMPONENTS
-══════════════════════════════ -->
-<div id="tab-components" style="display:none;">
-  <div class="comp-section">
-    <div class="comp-section-title">Buttons</div>
-    <div class="comp-showcase-grid">
-      <div class="comp-item">
-        <div class="comp-item-label">Primary / Green</div>
-        <div class="comp-demo" style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="fb-btn-lg fb-btn-green">List Your Food</button>
-          <button class="fb-btn-lg fb-btn-green" style="opacity:.5;cursor:not-allowed;">Disabled</button>
+<!-- ═══════════════════════════════════════
+     PAGE 2 — DONOR DASHBOARD
+════════════════════════════════════════ -->
+<div id="page-donor" class="page">
+  <div class="dash-layout">
+    <div class="dash-main">
+      <div class="dash-title">Nayi Food Listing Post Karein</div>
+      <div class="dash-sub">Aapka khana kisi ke kaam aa sakta hai — sirf 2 minute lagenge</div>
+
+      <div class="form-card">
+        <div class="form-card-title">🍱 Food ki details bharein</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Khane ki qism</label>
+            <select class="form-input" id="food-type">
+              <option value="">Chunein...</option>
+              <option>🍛 Cooked food (paka hua)</option>
+              <option>🥬 Raw / uncooked</option>
+              <option>🥐 Bakery / packaged</option>
+              <option>🎊 Wedding / event surplus</option>
+              <option>🍎 Fruit &amp; vegetables</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated portions (taqreeban)</label>
+            <input type="number" class="form-input" id="food-qty" placeholder="Jaise: 50" min="1">
+          </div>
         </div>
-      </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Secondary / Outline</div>
-        <div class="comp-demo" style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="fb-btn-lg fb-btn-white" style="border:1.5px solid var(--border-d);">Register as NGO</button>
-          <button class="fb-nav-btn">NGO Login</button>
+
+        <div class="form-group">
+          <label class="form-label">Khane ki description</label>
+          <textarea class="form-input" id="food-desc" placeholder="Jaise: Biryani, daal, roti — aaj raat ki shaadi ka bacha hua..."></textarea>
         </div>
-      </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Small Actions</div>
-        <div class="comp-demo" style="display:flex;gap:8px;align-items:center;">
-          <button class="fb-claim">Claim</button>
-          <button style="padding:6px 12px;background:transparent;border:1px solid var(--border-d);border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--muted);">Skip</button>
-          <button style="padding:6px 12px;background:var(--amber-l);color:#7a4810;border:1px solid #f5d5a8;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">Mark Delivered</button>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Donor ka naam</label>
+            <input type="text" class="form-input" id="donor-name" placeholder="Restaurant / ghar / hall ka naam">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone number</label>
+            <input type="tel" class="form-input" id="donor-phone" placeholder="03XX-XXXXXXX">
+          </div>
         </div>
+
+        <div class="form-group">
+          <label class="form-label">Pickup address</label>
+          <input type="text" class="form-input" id="donor-address" placeholder="Gali, mohalla, city area — jaise: DHA Phase 4, Karachi">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pickup window — kab tak available hai?</label>
+          <div class="window-grid">
+            <div class="window-btn" onclick="selectWindow(this)">⚡ Abhi — 1 ghante mein</div>
+            <div class="window-btn" onclick="selectWindow(this)">🕑 2 ghante mein</div>
+            <div class="window-btn" onclick="selectWindow(this)">🌙 Aaj raat tak</div>
+            <div class="window-btn" onclick="selectWindow(this)">🌅 Kal subah tak</div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Special note (optional)</label>
+          <input type="text" class="form-input" id="food-note" placeholder="Koi allergy info, packaging details, ya koi khaas baat...">
+        </div>
+
+        <button class="submit-btn" onclick="submitListing()">
+          Listing Post Karein — NGOs ko turant alert jayegi 🔔
+        </button>
       </div>
     </div>
 
-    <div class="comp-section-title">Tags & Badges</div>
-    <div class="comp-showcase-grid">
-      <div class="comp-item">
-        <div class="comp-item-label">Food type tags</div>
-        <div class="comp-demo" style="display:flex;gap:8px;flex-wrap:wrap;">
-          <span class="fb-tag fb-tag-g">Cooked food</span>
-          <span class="fb-tag fb-tag-a">Bakery items</span>
-          <span class="fb-tag fb-tag-b">Wedding surplus</span>
-        </div>
+    <!-- Sidebar -->
+    <div class="dash-sidebar">
+      <div class="impact-grid">
+        <div class="impact-box"><div class="impact-num" id="total-meals">847</div><div class="impact-lbl">Total meals rescued</div></div>
+        <div class="impact-box"><div class="impact-num" id="total-donations">23</div><div class="impact-lbl">Total donations</div></div>
+        <div class="impact-box"><div class="impact-num">96%</div><div class="impact-lbl">Pickup success rate</div></div>
+        <div class="impact-box"><div class="impact-num">22 min</div><div class="impact-lbl">Avg claim time</div></div>
       </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Status badges</div>
-        <div class="comp-demo" style="display:flex;gap:8px;flex-wrap:wrap;">
-          <span style="background:var(--green-l);color:var(--green-d);border:1px solid #c0e4d8;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;">Delivered</span>
-          <span style="background:var(--amber-l);color:#7a4810;border:1px solid #f5d5a8;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;">Pending</span>
-          <span style="background:var(--green-l);color:var(--green);border:1px solid #c0e4d8;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;">Live</span>
-          <span style="background:#f3f4f6;color:var(--faint);border:1px solid var(--border);font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;">Expired</span>
-        </div>
-      </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Live indicator</div>
-        <div class="comp-demo">
-          <div class="fb-live"><div class="fb-pulse"></div>12 live listings</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="comp-section-title">Cards</div>
-    <div class="comp-showcase-grid">
-      <div class="comp-item">
-        <div class="comp-item-label">Food listing card</div>
-        <div class="comp-demo">
-          <div class="fb-food-card" style="max-width:280px;">
-            <div class="fb-card-top"><span class="fb-tag fb-tag-g">Cooked food</span><span class="fb-time">18 min ago</span></div>
-            <div class="fb-food-name">Biryani + Raita</div>
-            <div class="fb-food-qty">~40 portions · DHA Phase 4</div>
-            <div class="fb-donor-row"><div class="fb-donor-ic">KR</div>Kolachi Restaurant</div>
-            <div class="fb-card-footer"><div class="fb-status"><div class="fb-sdot fb-sdot-g"></div><span style="color:var(--green);font-weight:500;">Available</span></div><button class="fb-claim">Claim</button></div>
-          </div>
+      <div class="hist-title">Purani listings</div>
+      <div class="hist-list" id="donor-history">
+        <div class="hist-item">
+          <div class="hist-top"><span class="hist-name">Biryani + Raita</span><span class="badge-live">Live</span></div>
+          <div class="hist-detail">40 portions · DHA Phase 4 · Abhi</div>
+          <div class="hist-ngo">Claim pending...</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-top"><span class="hist-name">Karahi Gosht</span><span class="badge-delivered">Delivered</span></div>
+          <div class="hist-detail">30 portions · 2 din pehle</div>
+          <div class="hist-ngo">✓ Saylani Welfare ne pick kiya</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-top"><span class="hist-name">Dal + Roti</span><span class="badge-delivered">Delivered</span></div>
+          <div class="hist-detail">55 portions · 5 din pehle</div>
+          <div class="hist-ngo">✓ Chhipa Welfare ne pick kiya</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-top"><span class="hist-name">Mixed appetizers</span><span class="badge-expired">Expired</span></div>
+          <div class="hist-detail">20 portions · 8 din pehle</div>
+          <div class="hist-ngo" style="color:var(--text-faint);">Koi claim nahi aaya</div>
         </div>
       </div>
-      <div class="comp-item">
-        <div class="comp-item-label">NGO card</div>
-        <div class="comp-demo">
-          <div class="fb-ngo-card" style="max-width:280px;">
-            <div class="fb-ngo-ic">SE</div>
-            <div><div class="fb-ngo-name">Saylani Welfare</div><div class="fb-ngo-area">📍 Gulshan, Korangi, Landhi</div><div class="fb-ngo-stat">247 pickups this month</div><div class="fb-verified">✓ Verified NGO</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Stat metric card</div>
-        <div class="comp-demo">
-          <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--card);">
-            <div class="fb-stat"><div class="fb-stat-n">2,841</div><div class="fb-stat-l">Meals rescued</div></div>
-            <div class="fb-stat" style="border-right:none;"><div class="fb-stat-n">38</div><div class="fb-stat-l">Active donors</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="comp-section-title">Form Elements</div>
-    <div class="comp-showcase-grid">
-      <div class="comp-item">
-        <div class="comp-item-label">Text input</div>
-        <div class="comp-demo" style="display:flex;flex-direction:column;gap:8px;">
-          <input type="text" placeholder="Restaurant / home / hall name" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;">
-          <input type="text" placeholder="Focused state" style="width:100%;padding:9px 12px;border:1.5px solid var(--green);border-radius:7px;font-size:13px;background:#fff;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;">
-        </div>
-      </div>
-      <div class="comp-item">
-        <div class="comp-item-label">Pickup window selector</div>
-        <div class="comp-demo" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-          <div style="padding:8px 10px;font-size:11px;border:1.5px solid var(--green);border-radius:7px;background:var(--green-l);color:var(--green-d);font-weight:500;text-align:center;cursor:pointer;">⚡ Within 1 hour</div>
-          <div style="padding:8px 10px;font-size:11px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--muted);text-align:center;cursor:pointer;">🕑 Within 2 hours</div>
-          <div style="padding:8px 10px;font-size:11px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--muted);text-align:center;cursor:pointer;">🌙 By tonight</div>
-          <div style="padding:8px 10px;font-size:11px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--muted);text-align:center;cursor:pointer;">🌅 By tomorrow</div>
+      <div class="cert-box">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-text">
+          Aapka monthly impact certificate tayyar hai!<br>
+          <span style="cursor:pointer;text-decoration:underline;" onclick="showToast('Certificate download ho raha hai... ✓')">Download karein aur share karein</span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     TAB 3: DESIGN TOKENS
-══════════════════════════════ -->
-<div id="tab-tokens" style="display:none;">
-  <div class="ds-panel">
+<!-- ═══════════════════════════════════════
+     PAGE 3 — NGO DASHBOARD
+════════════════════════════════════════ -->
+<div id="page-ngo" class="page">
+  <div class="ngo-topbar">
+    <div>
+      <div style="font-size:16px;font-weight:600;">Saylani Welfare — NGO Dashboard</div>
+      <div style="font-size:13px;color:var(--text-muted);">Karachi network · Gulshan, Korangi, Landhi zones</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div class="live-badge"><div class="pulse"></div>4 naye alerts</div>
+      <button class="nav-btn" onclick="showToast('Settings — coming soon!')">Settings</button>
+    </div>
+  </div>
 
-    <div class="ds-section">
-      <div class="ds-section-title">Color Palette</div>
-      <div class="ds-row">
-        <div class="color-swatch"><div class="color-box" style="background:#1a7a5e;"></div><div class="color-info"><div class="color-name">green</div><div class="color-hex">#1a7a5e</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#e8f5f0;"></div><div class="color-info"><div class="color-name">green-light</div><div class="color-hex">#e8f5f0</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#2fa87f;"></div><div class="color-info"><div class="color-name">green-mid</div><div class="color-hex">#2fa87f</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#0f4d3a;"></div><div class="color-info"><div class="color-name">green-dark</div><div class="color-hex">#0f4d3a</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#e8882a;"></div><div class="color-info"><div class="color-name">amber</div><div class="color-hex">#e8882a</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#fdf3e7;border:1px solid #eee;"></div><div class="color-info"><div class="color-name">amber-light</div><div class="color-hex">#fdf3e7</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#1a1a1a;"></div><div class="color-info"><div class="color-name">text</div><div class="color-hex">#1a1a1a</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#6b7280;"></div><div class="color-info"><div class="color-name">text-muted</div><div class="color-hex">#6b7280</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#fafaf8;border:1px solid #eee;"></div><div class="color-info"><div class="color-name">bg</div><div class="color-hex">#fafaf8</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#ffffff;border:1px solid #eee;"></div><div class="color-info"><div class="color-name">card</div><div class="color-hex">#ffffff</div></div></div>
-        <div class="color-swatch"><div class="color-box" style="background:#e8e6e0;"></div><div class="color-info"><div class="color-name">border</div><div class="color-hex">#e8e6e0</div></div></div>
+  <div class="ngo-dash-layout">
+    <div class="ngo-main">
+      <div style="font-size:16px;font-weight:600;margin-bottom:16px;">Live Alerts — Aapke Area Mein</div>
+      <div class="alert-list" id="alert-list"></div>
+    </div>
+
+    <div class="ngo-sidebar-content">
+      <div style="font-size:15px;font-weight:600;margin-bottom:14px;">Is Maheene Ka Summary</div>
+      <div class="ngo-stats-grid">
+        <div class="ngo-stat-box"><div class="ngo-stat-num" id="ngo-pickups">247</div><div class="ngo-stat-lbl">Pickups complete</div></div>
+        <div class="ngo-stat-box"><div class="ngo-stat-num">6,840</div><div class="ngo-stat-lbl">Meals delivered</div></div>
+        <div class="ngo-stat-box"><div class="ngo-stat-num">38 min</div><div class="ngo-stat-lbl">Avg claim time</div></div>
+        <div class="ngo-stat-box"><div class="ngo-stat-num">96%</div><div class="ngo-stat-lbl">Success rate</div></div>
       </div>
-    </div>
 
-    <div class="ds-section">
-      <div class="ds-section-title">Typography</div>
-      <div class="type-sample"><div class="type-meta">DM Serif Display · 60px · Display headings</div><div style="font-family:'DM Serif Display',serif;font-size:48px;color:#fff;line-height:1.1;">Leftover food,<br><em style="color:var(--green);">someone's need</em></div></div>
-      <div class="type-sample"><div class="type-meta">DM Serif Display · 26px · Section titles</div><div style="font-family:'DM Serif Display',serif;font-size:26px;color:#fff;">Available Now — Karachi</div></div>
-      <div class="type-sample"><div class="type-meta">DM Sans 600 · 16px · Card titles</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#fff;">Biryani + Raita</div></div>
-      <div class="type-sample"><div class="type-meta">DM Sans 400 · 15px · Body text</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#aaa;line-height:1.7;max-width:480px;">Get your restaurant, hotel or wedding hall's surplus food to nearby verified NGOs — completely free, in just 2 minutes.</div></div>
-      <div class="type-sample"><div class="type-meta">DM Sans 500 · 12px · Labels / meta</div><div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:#777;">18 min ago · DHA Phase 4 · 40 portions</div></div>
-    </div>
-
-    <div class="ds-section">
-      <div class="ds-section-title">Spacing Scale</div>
-      <div class="spacing-row">
-        <div class="sp-item"><div class="sp-box" style="width:4px;height:4px;"></div><div class="sp-lbl">4px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:8px;height:8px;"></div><div class="sp-lbl">8px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:12px;height:12px;"></div><div class="sp-lbl">12px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:16px;height:16px;"></div><div class="sp-lbl">16px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:20px;height:20px;"></div><div class="sp-lbl">20px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:24px;height:24px;"></div><div class="sp-lbl">24px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:28px;height:28px;"></div><div class="sp-lbl">28px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:32px;height:32px;"></div><div class="sp-lbl">32px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:40px;height:40px;"></div><div class="sp-lbl">40px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:48px;height:48px;"></div><div class="sp-lbl">48px</div></div>
-        <div class="sp-item"><div class="sp-box" style="width:56px;height:56px;"></div><div class="sp-lbl">56px</div></div>
-      </div>
-    </div>
-
-    <div class="ds-section">
-      <div class="ds-section-title">Border Radius</div>
-      <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;">
-        <div style="text-align:center;"><div style="width:48px;height:48px;background:#1a7a5e;border-radius:6px;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">6px<br>buttons</div></div>
-        <div style="text-align:center;"><div style="width:56px;height:56px;background:#1a7a5e;border-radius:8px;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">8px<br>inputs</div></div>
-        <div style="text-align:center;"><div style="width:64px;height:64px;background:#1a7a5e;border-radius:10px;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">10px<br>ngo icons</div></div>
-        <div style="text-align:center;"><div style="width:72px;height:72px;background:#1a7a5e;border-radius:14px;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">14px<br>cards</div></div>
-        <div style="text-align:center;"><div style="width:56px;height:32px;background:#1a7a5e;border-radius:20px;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">20px<br>tags/pills</div></div>
-        <div style="text-align:center;"><div style="width:40px;height:40px;background:#1a7a5e;border-radius:50%;"></div><div style="font-size:10px;color:#555;font-family:'DM Mono',monospace;margin-top:6px;">50%<br>avatars</div></div>
-      </div>
-    </div>
-
-    <div class="ds-section">
-      <div class="ds-section-title">Breakpoints</div>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:14px 18px;">
-          <div style="font-size:11px;color:#555;font-family:'DM Mono',monospace;margin-bottom:4px;">Mobile</div>
-          <div style="font-size:18px;font-weight:600;color:#fff;font-family:'DM Mono',monospace;">≤ 768px</div>
-          <div style="font-size:11px;color:#444;font-family:'DM Mono',monospace;margin-top:4px;">Single column · Stacked nav</div>
+      <div class="map-box">
+        <div class="map-bg"></div>
+        <div class="map-label">Karachi — Active listings map</div>
+        <div class="map-pin-group">
+          <div class="map-pin-item"><div class="map-pin-circle pin-available"></div><div class="map-pin-lbl">Available (8)</div></div>
+          <div class="map-pin-item"><div class="map-pin-circle pin-claimed"></div><div class="map-pin-lbl">Claimed (3)</div></div>
+          <div class="map-pin-item"><div class="map-pin-circle pin-done"></div><div class="map-pin-lbl">Delivered (1)</div></div>
         </div>
-        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:14px 18px;">
-          <div style="font-size:11px;color:#555;font-family:'DM Mono',monospace;margin-bottom:4px;">Tablet</div>
-          <div style="font-size:18px;font-weight:600;color:#fff;font-family:'DM Mono',monospace;">768–1024px</div>
-          <div style="font-size:11px;color:#444;font-family:'DM Mono',monospace;margin-top:4px;">2-col grid · Compact nav</div>
+        <div style="font-size:10px;color:var(--text-faint);position:relative;z-index:1;">Google Maps — production mein integrate hoga</div>
+      </div>
+
+      <div style="font-size:14px;font-weight:600;margin-bottom:12px;">Active Volunteers — Aaj</div>
+      <div class="vol-list">
+        <div class="vol-item">
+          <div class="vol-left"><div class="vol-avatar">AB</div><div><div class="vol-name">Ahmed Bhai</div><div class="vol-zone">Gulshan zone · pickup en route</div></div></div>
+          <span class="status-busy">Busy</span>
         </div>
-        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:14px 18px;">
-          <div style="font-size:11px;color:#555;font-family:'DM Mono',monospace;margin-bottom:4px;">Desktop</div>
-          <div style="font-size:18px;font-weight:600;color:#fff;font-family:'DM Mono',monospace;">≥ 1024px</div>
-          <div style="font-size:11px;color:#444;font-family:'DM Mono',monospace;margin-top:4px;">3-col grid · Full nav</div>
+        <div class="vol-item">
+          <div class="vol-left"><div class="vol-avatar">SR</div><div><div class="vol-name">Sana Rehman</div><div class="vol-zone">DHA / Clifton zone</div></div></div>
+          <span class="status-online">Available</span>
+        </div>
+        <div class="vol-item">
+          <div class="vol-left"><div class="vol-avatar">MK</div><div><div class="vol-name">Moiz Khan</div><div class="vol-zone">Saddar / Lyari zone</div></div></div>
+          <span class="status-online">Available</span>
+        </div>
+        <div class="vol-item">
+          <div class="vol-left"><div class="vol-avatar">FA</div><div><div class="vol-name">Fatima Asghar</div><div class="vol-zone">Korangi / Landhi zone</div></div></div>
+          <span class="status-online">Available</span>
         </div>
       </div>
     </div>
-
-    <div class="ds-section">
-      <div class="ds-section-title">Figma Import Guide</div>
-      <div style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:20px;max-width:600px;">
-        <div style="font-size:13px;color:#888;line-height:1.8;">
-          <div style="color:#fff;font-weight:600;margin-bottom:12px;">How to import this into Figma:</div>
-          <div style="margin-bottom:8px;"><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 1</span> &nbsp; Open Figma → Community → search <span style="color:#fff;font-family:'DM Mono',monospace;">"HTML to Figma"</span></div>
-          <div style="margin-bottom:8px;"><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 2</span> &nbsp; Install the plugin by <span style="color:#fff;">Builder.io</span></div>
-          <div style="margin-bottom:8px;"><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 3</span> &nbsp; Open the plugin → paste the Netlify URL of this site</div>
-          <div style="margin-bottom:8px;"><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 4</span> &nbsp; Click Import — every section becomes a Figma frame</div>
-          <div style="margin-bottom:8px;"><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 5</span> &nbsp; Use the color codes above to create a Color Styles library</div>
-          <div><span style="color:var(--green);font-family:'DM Mono',monospace;font-size:12px;">Step 6</span> &nbsp; Add DM Serif Display + DM Sans as Text Styles</div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <div class="modal-title">Listing Post Ho Gayi!</div>
+    <div class="modal-desc">Aapki listing live ho gayi hai. Near-by NGOs ko turant SMS aur app alert bhej diya gaya hai. Insha'Allah jaldi pickup ho jaayegi!</div>
+    <button class="modal-btn" onclick="closeModal()">Theek Hai, Shukriya!</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
-  function switchTab(name) {
-    document.getElementById('tab-responsive').style.display = name==='responsive'?'block':'none';
-    document.getElementById('tab-components').style.display = name==='components'?'block':'none';
-    document.getElementById('tab-tokens').style.display    = name==='tokens'?'block':'none';
-    document.querySelectorAll('.tb-tab').forEach((t,i)=>{
-      t.classList.toggle('active', ['responsive','components','tokens'][i]===name);
-    });
+/* ── DATA ── */
+const listings = [
+  { id:1, name:"Biryani + Raita",   type:"Cooked food",   qty:"~40 portions",  location:"DHA Phase 4",       donor:"Kolachi Restaurant",   initials:"KR", time:"18 min pehle",   status:"available", tag:"tag-green" },
+  { id:2, name:"Bread + Pastries",  type:"Bakery items",  qty:"~60 pieces",    location:"Saddar",            donor:"Gul Ahmed Bakery",     initials:"GA", time:"45 min pehle",   status:"available", tag:"tag-amber" },
+  { id:3, name:"Wedding Surplus",   type:"Event surplus", qty:"~120 portions", location:"Gulshan-e-Iqbal",   donor:"Al-Sehat Hall",        initials:"AS", time:"1 ghanta pehle", status:"claimed",   tag:"tag-blue"  },
+  { id:4, name:"Dal + Chapati",     type:"Cooked food",   qty:"~35 portions",  location:"North Nazimabad",   donor:"Cafe Lazeez",          initials:"CL", time:"2 ghante pehle", status:"available", tag:"tag-green" },
+  { id:5, name:"Fresh Vegetables",  type:"Raw produce",   qty:"~25 kg",        location:"Liaquatabad",       donor:"Hafiz Fruits & Veg",   initials:"HF", time:"3 ghante pehle", status:"available", tag:"tag-green" },
+  { id:6, name:"Naan + Salan",      type:"Cooked food",   qty:"~50 portions",  location:"Clifton Block 5",   donor:"Bundoo Khan",          initials:"BK", time:"4 ghante pehle", status:"available", tag:"tag-green" },
+];
+
+const alerts = [
+  { id:1, name:"Biryani + Raita — 40 portions",  donor:"Kolachi Restaurant", area:"DHA Phase 4",     dist:"3.2 km", window:"Agle 1 ghante mein",  timer:"47 minute bache hain", status:"new",       urgent:true  },
+  { id:2, name:"Bread + Pastries — 60 pcs",      donor:"Gul Ahmed Bakery",   area:"Saddar",          dist:"5.8 km", window:"Aaj raat tak",         timer:"3 ghante 12 minute",   status:"new",       urgent:true  },
+  { id:3, name:"Wedding Surplus — 120 portions", donor:"Al-Sehat Hall",      area:"Gulshan",         dist:"7.1 km", window:"Kal subah tak",        timer:"",                     status:"claimed",   urgent:false },
+  { id:4, name:"Dal + Chapati — 35 portions",    donor:"Cafe Lazeez",        area:"North Nazimabad", dist:"6.4 km", window:"—",                    timer:"",                     status:"delivered", urgent:false },
+];
+
+let claimedListings = {};
+let alertStatuses   = {};
+alerts.forEach(a => alertStatuses[a.id] = a.status);
+
+/* ── NAVIGATION ── */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMenu();
+  if (name === 'home')  renderListings();
+  if (name === 'ngo')   renderAlerts();
+}
+
+function scrollToSection(id) {
+  showPage('home');
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 120);
+}
+
+/* ── HAMBURGER ── */
+function toggleMenu() {
+  const h  = document.getElementById('hamburger');
+  const m  = document.getElementById('mobile-menu');
+  const open = m.classList.toggle('open');
+  h.classList.toggle('open', open);
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+// Close on outside click
+document.addEventListener('click', e => {
+  const nav = document.getElementById('main-nav');
+  const menu = document.getElementById('mobile-menu');
+  if (!nav.contains(e.target) && !menu.contains(e.target)) closeMenu();
+});
+
+/* ── RENDER LISTINGS ── */
+function renderListings() {
+  const grid = document.getElementById('food-grid');
+  if (!grid) return;
+  grid.innerHTML = listings.map(l => {
+    const isClaimed = claimedListings[l.id] || l.status === 'claimed';
+    return `
+      <div class="food-card" onclick="void(0)">
+        <div class="food-card-top">
+          <span class="tag ${l.tag}">${l.type}</span>
+          <span class="time-ago">${l.time}</span>
+        </div>
+        <div class="food-name">${l.name}</div>
+        <div class="food-qty">${l.qty} · ${l.location}</div>
+        <div class="food-donor">
+          <div class="donor-dot">${l.initials}</div>
+          ${l.donor}
+        </div>
+        <div class="card-footer">
+          <div class="status-dot-row">
+            <div class="sdot ${isClaimed ? 'sdot-amber' : 'sdot-green'}"></div>
+            <span style="color:${isClaimed ? 'var(--amber)' : 'var(--green)'};font-size:12px;font-weight:500;">${isClaimed ? 'Claimed' : 'Available'}</span>
+          </div>
+          ${isClaimed
+            ? `<span class="claimed-label">Pickup pending</span>`
+            : `<button class="claim-btn" onclick="claimListing(${l.id},this);event.stopPropagation()">Claim karein</button>`}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function claimListing(id, btn) {
+  claimedListings[id] = true;
+  btn.closest('.card-footer').innerHTML = `
+    <div class="status-dot-row"><div class="sdot sdot-amber"></div><span style="color:var(--amber);font-size:12px;font-weight:500;">Claimed</span></div>
+    <span class="claimed-label">Pickup pending</span>`;
+  showToast('✓ Listing claim ho gayi! NGO ko confirm kar diya gaya.');
+}
+
+/* ── RENDER ALERTS ── */
+function renderAlerts() {
+  const list = document.getElementById('alert-list');
+  if (!list) return;
+  list.innerHTML = alerts.map(a => {
+    const status = alertStatuses[a.id] || a.status;
+    let badgeHtml = '', actionsHtml = '';
+
+    if (status === 'new') {
+      badgeHtml = `<span class="tag tag-green">Naya</span>`;
+      actionsHtml = `
+        <div class="alert-actions">
+          ${a.timer ? `<div class="timer"><div class="timer-ring"></div>${a.timer}</div>` : '<div></div>'}
+          <div class="action-btns">
+            <button class="btn-skip"   onclick="skipAlert(${a.id})">Skip</button>
+            <button class="btn-accept" onclick="acceptAlert(${a.id})">Claim Karein</button>
+          </div>
+        </div>`;
+    } else if (status === 'claimed') {
+      badgeHtml = `<span class="tag tag-amber">Claimed — aap</span>`;
+      actionsHtml = `
+        <div class="alert-actions">
+          <div style="font-size:12px;color:var(--green);font-weight:500;">Pickup en route — ETA 25 min</div>
+          <button class="btn-delivered" onclick="markDelivered(${a.id})">✓ Delivered Mark Karein</button>
+        </div>`;
+    } else if (status === 'delivered') {
+      badgeHtml = `<span class="badge-delivered">Delivered</span>`;
+      actionsHtml = `<div style="font-size:12px;color:var(--text-muted);">${a.donor} · Kal · Ahmed bhai ne deliver kiya</div>`;
+    } else if (status === 'skipped') {
+      badgeHtml = `<span class="badge-expired">Skipped</span>`;
+      actionsHtml = `<div style="font-size:12px;color:var(--text-faint);">Pass kar diya</div>`;
+    }
+
+    return `
+      <div class="alert-card ${a.urgent && status === 'new' ? 'urgent' : ''}">
+        <div class="alert-top">
+          <span class="alert-name">${a.name}</span>
+          ${badgeHtml}
+        </div>
+        <div class="alert-meta">
+          ${a.donor} · ${a.area} · <strong>${a.dist} dur</strong><br>
+          Pickup window: <strong>${a.window}</strong>
+        </div>
+        ${actionsHtml}
+      </div>`;
+  }).join('');
+}
+
+function acceptAlert(id) {
+  alertStatuses[id] = 'claimed';
+  renderAlerts();
+  const n = document.getElementById('ngo-pickups');
+  n.textContent = parseInt(n.textContent) + 1;
+  showToast('✓ Claim ho gaya! Volunteer ko assign karein.');
+}
+function skipAlert(id) {
+  alertStatuses[id] = 'skipped';
+  renderAlerts();
+  showToast('Skipped — agli listing dekhein.');
+}
+function markDelivered(id) {
+  alertStatuses[id] = 'delivered';
+  renderAlerts();
+  showToast('🎉 Delivery complete! Jazak Allah Khair.');
+}
+
+/* ── DONOR FORM ── */
+function selectWindow(el) {
+  document.querySelectorAll('.window-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function submitListing() {
+  const type = document.getElementById('food-type').value;
+  const qty  = document.getElementById('food-qty').value;
+  const desc = document.getElementById('food-desc').value;
+  const name = document.getElementById('donor-name').value;
+  const addr = document.getElementById('donor-address').value;
+
+  if (!type || !qty || !desc || !name || !addr) {
+    showToast('⚠ Sab zaroori fields bharein pehle.');
+    return;
   }
+
+  const newListing = {
+    id:       listings.length + 1,
+    name:     desc.length > 24 ? desc.substring(0,24) + '...' : desc,
+    type:     type.replace(/^[^\s]+\s/, ''),
+    qty:      `~${qty} portions`,
+    location: addr.split(',')[0],
+    donor:    name,
+    initials: name.substring(0,2).toUpperCase(),
+    time:     "Abhi abhi",
+    status:   "available",
+    tag:      "tag-green"
+  };
+  listings.unshift(newListing);
+
+  const meals = document.getElementById('total-meals');
+  meals.textContent = (parseInt(meals.textContent.replace(/,/g,'')) + parseInt(qty)).toLocaleString();
+  const donations = document.getElementById('total-donations');
+  donations.textContent = parseInt(donations.textContent) + 1;
+
+  const hist   = document.getElementById('donor-history');
+  const newItem = document.createElement('div');
+  newItem.className = 'hist-item';
+  newItem.innerHTML = `
+    <div class="hist-top"><span class="hist-name">${newListing.name}</span><span class="badge-live">Live</span></div>
+    <div class="hist-detail">${qty} portions · ${addr.split(',')[0]} · Abhi</div>
+    <div class="hist-ngo">Claim pending...</div>`;
+  hist.insertBefore(newItem, hist.firstChild);
+
+  // Reset form
+  ['food-type','food-qty','food-desc','food-note'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('donor-name').value    = '';
+  document.getElementById('donor-phone').value   = '';
+  document.getElementById('donor-address').value = '';
+  document.querySelectorAll('.window-btn').forEach(b => b.classList.remove('selected'));
+
+  document.getElementById('success-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('success-modal').classList.remove('open');
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ── INIT ── */
+renderListings();
+renderAlerts();
 </script>
 </body>
 </html>
